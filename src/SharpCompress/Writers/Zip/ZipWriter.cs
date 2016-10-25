@@ -106,7 +106,12 @@ namespace SharpCompress.Writers.Zip
 
         public Stream WriteToStream(string entryPath, ZipWriterEntryOptions options)
         {
+            bool isDirectory = entryPath.EndsWith("/");
             entryPath = NormalizeFilename(entryPath);
+            if (isDirectory)
+            {
+                entryPath += "/";
+            }
             options.ModificationDateTime = options.ModificationDateTime ?? DateTime.Now;
             options.EntryComment = options.EntryComment ?? string.Empty;
             var entry = new ZipCentralDirectoryEntry
